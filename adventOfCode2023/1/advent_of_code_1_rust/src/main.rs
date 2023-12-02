@@ -23,7 +23,6 @@ fn sum_calibration_values2(input: Vec<String>) -> i32 {
         ("seven", "7"),
         ("eight", "8"),
         ("nine", "9"),
- 
     ]);
 
     let mut sum: i32 = 0;
@@ -37,33 +36,33 @@ fn sum_calibration_values2(input: Vec<String>) -> i32 {
             for key in mumber_map.keys() {
                 if temp.contains(key) {
                     result.push(key.to_string());
-                    temp = "".to_owned();
+                    temp = temp.chars().last().unwrap().to_string();
                 }
             }
             if char.is_digit(10) {
                 result.push(char.to_string());
             }
         }
-        if result.len() > 1{
-            let first = result[0].clone();
-            let last = result.last().unwrap();
 
-            let first_number = if mumber_map.contains_key(first.as_str()) {
-                *mumber_map.get(first.as_str()).unwrap()
-            } else {
-                &first
-            };
+        let first = result[0].clone();
+        let last = result.last().unwrap();
 
-            let last_number = if mumber_map.contains_key(last.as_str()) {
-                *mumber_map.get(last.as_str()).unwrap()
-            } else {
-                last
-            };
-            //println!("{:?}", s);
-            let two_digits: String = format!("{}{}", first_number, last_number);
-            //println!("{}", two_digits);
-            sum += two_digits.parse::<i32>().unwrap();
-        }
+        let first_number = if mumber_map.contains_key(first.as_str()) {
+            *mumber_map.get(first.as_str()).unwrap()
+        } else {
+            &first
+        };
+
+        let last_number = if mumber_map.contains_key(last.as_str()) {
+            *mumber_map.get(last.as_str()).unwrap()
+        } else {
+            last
+        };
+        //println!("{:?}", s);
+        let two_digits: String = format!("{}{}", first_number, last_number);
+        //println!("{}", two_digits);
+        sum += two_digits.parse::<i32>().unwrap();
+
         result = Vec::new();
     }
     sum
@@ -84,7 +83,3 @@ fn main() {
     println!("Part1: {}", sum1);
     println!("Part2: {}", sum2);
 }
-//part1
-//57346 <- correct
-//part 2
-//53387 <- check
