@@ -1,11 +1,3 @@
-def part2(self, data):
-    mappings = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-    new_data = [
-        [x if (x := "".join([str(idx) for idx, val in enumerate(mappings, 1) if line[i:].startswith(val)])) else line[i]
-         for i in range(len(line))] for line in data]
-    return self.part1(new_data)
-
-
 digits_map = {
     "one": "1",
     "two": "2",
