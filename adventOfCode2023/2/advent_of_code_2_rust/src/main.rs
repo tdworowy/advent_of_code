@@ -1,6 +1,6 @@
 use std::{collections::HashMap, fs::read_to_string};
 
-// and remove word game
+// remove word game
 const RED: usize = 12;
 const GREEN: usize = 13;
 const BLUE: usize = 14;
@@ -27,20 +27,27 @@ fn sum_ids(input: Vec<String>) -> usize {
         let chunks: Vec<&str> = s.split(":").collect();
         // println!("{:?}", chunks[0]);
 
-        let id =chunks[0].trim();
-        let data: Vec<&str> = chunks[1].split(",").collect();
-        let mut value_map: HashMap<&str, usize> =
-            HashMap::from([("red", 0), ("blue", 0), ("green", 0)]);
+        let id = chunks[0].trim();
+        let mut possible_set: bool = true;
+        for set in chunks[1].split(";") {
+            let data: Vec<&str> = set.split(",").collect();
+            let mut value_map: HashMap<&str, usize> =
+                HashMap::from([("red", 0), ("blue", 0), ("green", 0)]);
 
-        // TODO hadnle sets separator -> ;    
-        for d in data {
-            let temp: Vec<&str> = d.split(" ").collect();
-            // println!("{:?} {:?}",id, temp);
-            let v: &str = &temp[1];
-            let t: &str = &temp[2];
-            *value_map.get_mut(t).unwrap() += v.parse::<usize>().unwrap();
+            for d in data {
+                let temp: Vec<&str> = d.split(" ").collect();
+                // println!("{:?} {:?}",id, temp);
+                let v: &str = &temp[1];
+                let t: &str = &temp[2];
+                *value_map.get_mut(t).unwrap() += v.parse::<usize>().unwrap();
+            }
+            if !check(value_map) {
+                possible_set = false;
+                break;
+            }
         }
-        if check(value_map) {
+        if possible_set {
+            // println!("{:?}",id);
             sum += id.parse::<usize>().unwrap();
         }
     }
@@ -53,3 +60,4 @@ fn main() {
     let sum = sum_ids(input);
     println!("Part1: {}", sum);
 }
+//part1: 2720
